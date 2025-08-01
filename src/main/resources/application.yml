@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: claims
+  
+  # Database configuration for Flowable
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  
+  h2:
+    console:
+      enabled: true
+
+# Flowable configuration
+flowable:
+  # Solo processi BPMN
+  process:
+    enabled: true
+    definition-location-prefix: "classpath*:/processes/"
+    definition-location-suffixes: "**.bpmn20.xml,**.bpmn"
+
+  # Disabilita gli altri engine
+  cmmn:
+    enabled: false
+  dmn:
+    enabled: false
+  form:
+    enabled: false
+  content:
+    enabled: false
+  idm:
+    enabled: false
+
+  # Database
+  database-schema-update: true
+  async-executor-activate: true
