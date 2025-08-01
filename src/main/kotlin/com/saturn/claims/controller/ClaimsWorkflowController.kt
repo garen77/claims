@@ -87,4 +87,124 @@ class ClaimsWorkflowController(
         
         return ResponseEntity.ok(response)
     }
+
+    @GetMapping("/instance/{processInstanceId}/tasks")
+    fun getTasksByProcessInstance(@PathVariable processInstanceId: String): ResponseEntity<Map<String, Any>> {
+        val activeTasks = claimsWorkflowService.getActiveTasksByProcessInstance(processInstanceId)
+        val completedTasks = claimsWorkflowService.getCompletedTasksByProcessInstance(processInstanceId)
+        
+        val activeTasksResponse = activeTasks.map { task ->
+            mapOf(
+                "id" to task.id,
+                "name" to task.name,
+                "assignee" to task.assignee,
+                "createTime" to task.createTime,
+                "description" to task.description,
+                "priority" to task.priority,
+                "status" to "active"
+            )
+        }
+        
+        val completedTasksResponse = completedTasks.map { task ->
+            mapOf(
+                "id" to task.id,
+                "name" to task.name,
+                "assignee" to task.assignee,
+                "createTime" to task.createTime,
+                "endTime" to task.endTime,
+                "description" to task.description,
+                "priority" to task.priority,
+                "status" to "completed",
+                "duration" to task.durationInMillis
+            )
+        }
+        
+        return ResponseEntity.ok(
+            mapOf(
+                "processInstanceId" to processInstanceId,
+                "activeTasks" to activeTasksResponse,
+                "completedTasks" to completedTasksResponse,
+                "totalActiveTasks" to activeTasks.size,
+                "totalCompletedTasks" to completedTasks.size
+            )
+        )
+    }
+
+    @GetMapping("/instance/{processInstanceId}/tasks/active")
+    fun getActiveTasksByProcessInstance(@PathVariable processInstanceId: String): ResponseEntity<List<Map<String, Any?>>> {
+        val tasks = claimsWorkflowService.getActiveTasksByProcessInstance(processInstanceId)
+        
+        val response = tasks.map { task ->
+            mapOf(
+                "id" to task.id,
+                "name" to task.name,
+                "assignee" to task.assignee,
+                "createTime" to task.createTime,
+                "description" to task.description,
+                "priority" to task.priority,
+                "processInstanceId" to task.processInstanceId
+            )
+        }
+        
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/instance/{processInstanceId}/tasks/completed")
+    fun getCompletedTasksByProcessInstance(@PathVariable processInstanceId: String): ResponseEntity<List<Map<String, Any?>>> {
+        val tasks = claimsWorkflowService.getCompletedTasksByProcessInstance(processInstanceId)
+        
+        val response = tasks.map { task ->
+            mapOf(
+                "id" to task.id,
+                "name" to task.name,
+                "assignee" to task.assignee,
+                "createTime" to task.createTime,
+                "endTime" to task.endTime,
+                "description" to task.description,
+                "priority" to task.priority,
+                "processInstanceId" to task.processInstanceId,
+                "duration" to task.durationInMillis
+            )
+        }
+        
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/claim/{claimId}/tasks")
+    fun getTasksByClaimId(@PathVariable claimId: String): ResponseEntity<List<Map<String, Any?>>> {
+        val tasks = claimsWorkflowService.getTasksByClaimId(claimId)
+        
+        val response = tasks.map { task ->
+            mapOf(
+                "id" to task.id,
+                "name" to task.name,
+                "assignee" to task.assignee,
+                "createTime" to task.createTime,
+                "description" to task.description,
+                "priority" to task.priority,
+                "processInstanceId" to task.processInstanceId
+            )
+        }
+        
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/claim/{claimId}/tasks/active")
+    fun getActiveTasksByClaimId(@PathVariable claimId: String): ResponseEntity<List<Map<String, Any?>>> {
+        val tasks = claimsWorkflowService.getActiveTasksByClaimId(claimId)
+        
+        val response = tasks.map { task ->
+            mapOf(
+                "id" to task.id,
+                "name" to task.name,
+                "assignee" to task.assignee,
+                "createTime" to task.createTime,
+                "description" to task.description,
+                "priority" to task.priority,
+                "processInstanceId" to task.processInstanceId
+            )
+        }
+        
+        return ResponseEntity.ok(response)
+    }
 }
