@@ -27,11 +27,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	
 	// Flowable dependencies
-	implementation("org.flowable:flowable-spring-boot-starter:7.1.0")
-	implementation("org.flowable:flowable-engine-spring:7.1.0")
-	implementation("org.flowable:flowable-ui-admin-spring:7.1.0")
-	implementation("org.flowable:flowable-ui-modeler-spring:7.1.0")
-	implementation("org.flowable:flowable-ui-task-spring:7.1.0")
+	"implementation"("org.flowable:flowable-spring-boot-starter:7.0.1")
+	"implementation"("org.flowable:flowable-bpmn-model:7.0.1")
+	"implementation"("org.flowable:flowable-image-generator:7.0.1")
 	
 	// Database
 	runtimeOnly("com.h2database:h2")

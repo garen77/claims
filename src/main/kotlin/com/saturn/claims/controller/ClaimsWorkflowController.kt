@@ -16,7 +16,8 @@ class ClaimsWorkflowController(
         val variables = mutableMapOf<String, Any>(
             "claimAmount" to request.claimAmount,
             "claimType" to request.claimType,
-            "customerName" to request.customerName
+            "customerName" to request.customerName,
+            "assessor" to request.assessor
         )
         variables.putAll(request.additionalVariables)
         

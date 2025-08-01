@@ -5,5 +5,6 @@ data class StartProcessRequest(
     val claimAmount: Double,
     val claimType: String,
     val customerName: String,
+    val assessor: String,
     val additionalVariables: Map<String, Any> = emptyMap()
 )
