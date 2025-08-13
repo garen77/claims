@@ -207,4 +207,10 @@ class ClaimsWorkflowController(
         
         return ResponseEntity.ok(response)
     }
+
+    @GetMapping("/instance/{processInstanceId}/{taskId}/decide")
+    fun decision(@PathVariable processInstanceId :String, @PathVariable taskId :String, @RequestParam(required = true) decision: String ) : ResponseEntity<String> {
+        var response = claimsWorkflowService.makeDecisionClaim(processInstanceId, taskId, decision)
+        return ResponseEntity.ok(response)
+    }
 }

@@ -95,4 +95,17 @@ class ClaimsWorkflowService(
             .list()
     }
 
+    fun makeDecisionClaim(processId: String, taskId: String, decision: String) : String  {
+        var task = taskService.createTaskQuery().processDefinitionKey("claimManagementProcess")
+            .taskId(taskId).processInstanceId(processId)
+            .singleResult();
+        if(task == null) {
+            return "There is no task available for process $processId ";
+        }
+        var taskVariables = taskService.getVariables(task.id)
+        taskVariables["approveReject"] = decision
+        taskService.setVariables(task.id, taskVariables)
+        taskService.complete(task.id)
+        return "Task ${task.name} completed succesfully"
+    }
 }
